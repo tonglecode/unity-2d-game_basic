@@ -1,6 +1,7 @@
 using System;
 using UnityEditor.Callbacks;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -10,6 +11,8 @@ public class PlayerController : MonoBehaviour
 	public int HP = 3;
 	private InputAction moveAction;
 	private InputAction jumpAction;
+
+	public Text hp_text;
 
 
 	public float speed = 3f;
@@ -22,7 +25,6 @@ public class PlayerController : MonoBehaviour
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
-
 	}
 
 	private void OnEnable()
@@ -53,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
 	void Start()
 	{
-
+		hp_text.text = "HP : "+HP.ToString();
 	}
 
 
@@ -90,7 +92,7 @@ public class PlayerController : MonoBehaviour
 		if (collision.gameObject.tag == "SpikeHead")
 		{
 			HP--;
-			
+			hp_text.text = "HP: "+HP.ToString();
 		}
 	}
 
