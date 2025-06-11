@@ -22,10 +22,14 @@ public class PlayerController : MonoBehaviour
 
 	private Rigidbody2D rb;
 
+	Animator anim;
+
+
 
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		anim = GetComponent<Animator>();
 	}
 
 	private void OnEnable()
@@ -56,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
 	void Start()
 	{
+		
 		hp_text.text = "HP : "+HP.ToString();
 	}
 
@@ -97,6 +102,8 @@ public class PlayerController : MonoBehaviour
 
 			GameObject HitPart = Instantiate(Hit_prefab, transform.position, Quaternion.identity);
 			Destroy(HitPart, 1f);
+
+			anim.SetTrigger("isHit");
 		}
 		
 		if (collision.gameObject.tag == "ObstacleX2")
