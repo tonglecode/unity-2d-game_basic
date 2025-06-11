@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
 	public Text hp_text;
 
+	public GameObject Hit_prefab;
 
 	public float speed = 3f;
 	public float jumpForce = 5f;
@@ -87,23 +88,32 @@ public class PlayerController : MonoBehaviour
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.name == "Tilemap")
-		isGrounded = true;
+			isGrounded = true;
 
-		if (collision.gameObject.tag == "SpikeHead")
+		if (collision.gameObject.tag == "Obstacle")
 		{
 			HP--;
+			hp_text.text = "HP: " + HP.ToString();
+
+			GameObject HitPart = Instantiate(Hit_prefab, transform.position, Quaternion.identity);
+			Destroy(HitPart, 1f);
+		}
+		
+		if (collision.gameObject.tag == "ObstacleX2")
+		{
+			HP -= 2;
 			hp_text.text = "HP: "+HP.ToString();
 		}
 	}
 
 	private void OnCollisionStay2D(Collision2D collision)
 	{
-		if (collision.gameObject.tag == "SpikeHead")
+		if (collision.gameObject.tag == "Obstacle")
 		Debug.Log("STAY");
 	}
 	private void OisionExit2D(Collision2D collision)
 	{
-		if (collision.gameObject.tag == "SpikeHead")
+		if (collision.gameObject.tag == "Obstacle")
 		Debug.Log("EXIT");
 	}
 
