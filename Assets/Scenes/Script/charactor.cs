@@ -102,6 +102,7 @@ public class PlayerController : MonoBehaviour
 			rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
 			isGrounded = false;
 			anim.SetBool("isJumping", true);
+			anim.SetBool("isFalling", false);
 		}
 	}
 
