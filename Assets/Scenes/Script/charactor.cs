@@ -70,12 +70,26 @@ public class PlayerController : MonoBehaviour
 	{
 		Vector2 input = moveAction.ReadValue<Vector2>();
 
-		if (input.x != 0)
+
+		if (rb.linearVelocity.y < 0.001f)
 		{
-			GetComponent<SpriteRenderer>().flipX = input.x < 0;
+			anim.SetBool("isJumping", false);
 		}
+
+		if (input.x != 0)
+			{
+				anim.SetBool("isIDLE", false);
+				anim.SetBool("isRUN", true);
+
+				GetComponent<SpriteRenderer>().flipX = input.x < 0;
+			}
+			else
+			{
+				anim.SetBool("isIDLE", true);
+				anim.SetBool("isRUN", false);
+			}
 		// Rigidbody2D의 velocity로 이동
-		rb.linearVelocity = new Vector2(input.x * speed, rb.linearVelocity.y);
+			rb.linearVelocity = new Vector2(input.x * speed, rb.linearVelocity.y);
 		// transform.Translate(movement * speed * Time.deltaTime); // 기존 이동 코드 주석처리
 	}
 
@@ -87,6 +101,7 @@ public class PlayerController : MonoBehaviour
 		{
 			rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
 			isGrounded = false;
+			anim.SetBool("isJumping", true);
 		}
 	}
 
