@@ -1,13 +1,13 @@
-using System;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 
+	private bool isGameOver = false;
 	public int HP = 3;
 	private InputAction moveAction;
 	private InputAction jumpAction;
@@ -16,11 +16,17 @@ public class PlayerController : MonoBehaviour
 
 	public GameObject Hit_prefab;
 
+	public GameObject GameOver;
+
 	public float speed = 3f;
 	public float jumpForce = 5f;
 	private bool isGrounded = true;
 
 	private Rigidbody2D rb;
+
+	private CapsuleCollider2D cc2d;
+
+	private SpriteRenderer sr;
 
 	Animator anim;
 
@@ -29,6 +35,8 @@ public class PlayerController : MonoBehaviour
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		sr = GetComponent<SpriteRenderer>();
+		cc2d = GetComponent<CapsuleCollider2D>();
 		anim = GetComponent<Animator>();
 	}
 
@@ -68,6 +76,15 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (isGameOver)
+		{
+			rb.linearVelocity = new Vector2(0, -6);
+			cc2d.enabled = false;
+			sr.sortingOrder = 200;
+			return;
+		}
+		
+		
 		Vector2 input = moveAction.ReadValue<Vector2>();
 
 
@@ -97,6 +114,7 @@ public class PlayerController : MonoBehaviour
 	// 연속 점프 방지
 	private void OnJump(InputAction.CallbackContext context)
 	{
+		if (isGameOver) return;
 		if (isGrounded)
 		{
 			rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
@@ -121,11 +139,17 @@ public class PlayerController : MonoBehaviour
 
 			anim.SetTrigger("isHit");
 		}
-		
+
 		if (collision.gameObject.tag == "ObstacleX2")
 		{
 			HP -= 2;
-			hp_text.text = "HP: "+HP.ToString();
+			hp_text.text = "HP: " + HP.ToString();
+		}
+
+		if (HP <= 0)
+		{
+			GameOver.SetActive(true);
+			isGameOver = true;
 		}
 	}
 
