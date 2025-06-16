@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Obstacle
   - SpikeHead
+  - ObstacleX2
   layers:
   - Default
   - TransparentFX
