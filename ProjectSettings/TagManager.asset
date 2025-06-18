@@ -7,6 +7,8 @@ TagManager:
   - Obstacle
   - SpikeHead
   - ObstacleX2
+  - Tram
+  - End
   layers:
   - Default
   - TransparentFX

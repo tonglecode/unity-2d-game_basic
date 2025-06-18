@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +18,13 @@ public class PlayerController : MonoBehaviour
 
 	public GameObject GameOver;
 
+	public GameObject GameEnd;
+
+	public void Retry_Button()
+	{
+		SceneManager.LoadScene("SampleScene");
+	}
+
 	public float speed = 3f;
 	public float jumpForce = 5f;
 	private bool isGrounded = true;
@@ -29,6 +36,8 @@ public class PlayerController : MonoBehaviour
 	private SpriteRenderer sr;
 
 	Animator anim;
+
+
 
 
 
@@ -68,8 +77,8 @@ public class PlayerController : MonoBehaviour
 
 	void Start()
 	{
-		
-		hp_text.text = "HP : "+HP.ToString();
+
+		hp_text.text = "HP : " + HP.ToString();
 	}
 
 
@@ -83,8 +92,8 @@ public class PlayerController : MonoBehaviour
 			sr.sortingOrder = 200;
 			return;
 		}
-		
-		
+
+
 		Vector2 input = moveAction.ReadValue<Vector2>();
 
 
@@ -94,19 +103,18 @@ public class PlayerController : MonoBehaviour
 		}
 
 		if (input.x != 0)
-			{
-				anim.SetBool("isIDLE", false);
-				anim.SetBool("isRUN", true);
+		{
+		
+			AnimationChange("isRUN");
 
-				GetComponent<SpriteRenderer>().flipX = input.x < 0;
-			}
-			else
-			{
-				anim.SetBool("isIDLE", true);
-				anim.SetBool("isRUN", false);
-			}
+			GetComponent<SpriteRenderer>().flipX = input.x < 0;
+		}
+		else
+		{
+			AnimationChange("isIDLE");
+		}
 		// Rigidbody2D의 velocity로 이동
-			rb.linearVelocity = new Vector2(input.x * speed, rb.linearVelocity.y);
+		rb.linearVelocity = new Vector2(input.x * speed, rb.linearVelocity.y);
 		// transform.Translate(movement * speed * Time.deltaTime); // 기존 이동 코드 주석처리
 	}
 
@@ -122,6 +130,14 @@ public class PlayerController : MonoBehaviour
 			anim.SetBool("isJumping", true);
 			anim.SetBool("isFalling", false);
 		}
+	}
+
+	private void AnimationChange(string temp)
+	{
+		anim.SetBool("isIDLE", false);
+		anim.SetBool("isRUN", false);
+
+		anim.SetBool(temp, true);
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
@@ -156,13 +172,30 @@ public class PlayerController : MonoBehaviour
 	private void OnCollisionStay2D(Collision2D collision)
 	{
 		if (collision.gameObject.tag == "Obstacle")
-		Debug.Log("STAY");
+			Debug.Log("STAY");
 	}
 	private void OisionExit2D(Collision2D collision)
 	{
 		if (collision.gameObject.tag == "Obstacle")
-		Debug.Log("EXIT");
+			Debug.Log("EXIT");
 	}
 
+
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.gameObject.tag == "Tram")
+		{
+			rb.AddForce(Vector3.up * jumpForce * 1.4f, ForceMode2D.Impulse);
+			isGrounded = false;
+			anim.SetBool("isJumping", true);
+			anim.SetBool("isFalling", false);
+		}
+
+		if (collision.gameObject.tag == "End")
+		{
+			GameEnd.SetActive(true);
+		}
+	}
 
 }
