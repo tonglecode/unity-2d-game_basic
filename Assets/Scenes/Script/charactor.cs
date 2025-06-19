@@ -45,10 +45,18 @@ public class PlayerController : MonoBehaviour
 
 	private void Awake()
 	{
+		
+		
+	}
+
+	private void Start()
+	{
+		isGrounded = false;
 		rb = GetComponent<Rigidbody2D>();
 		sr = GetComponent<SpriteRenderer>();
 		cc2d = GetComponent<CapsuleCollider2D>();
 		anim = GetComponent<Animator>();
+		hp_text.text = "HP : " + HP.ToString();
 	}
 
 	private void OnEnable()
@@ -76,13 +84,6 @@ public class PlayerController : MonoBehaviour
 		moveAction.Disable();
 		jumpAction.Disable();
 	}
-
-	void Start()
-	{
-
-		hp_text.text = "HP : " + HP.ToString();
-	}
-
 
 	// Update is called once per frame
 	void Update()
@@ -147,7 +148,7 @@ public class PlayerController : MonoBehaviour
 		if (collision.gameObject.name == "Tilemap")
 			isGrounded = true;
 
-		if (collision.gameObject.tag == "Obstacle")
+		if (collision.gameObject.CompareTag("Obstacle"))
 		{
 			HP--;
 			hp_text.text = "HP: " + HP.ToString();
@@ -158,7 +159,7 @@ public class PlayerController : MonoBehaviour
 			anim.SetTrigger("isHit");
 		}
 
-		if (collision.gameObject.tag == "ObstacleX2")
+		if (collision.gameObject.CompareTag("ObstacleX2"))
 		{
 			HP -= 2;
 			hp_text.text = "HP: " + HP.ToString();
@@ -173,12 +174,12 @@ public class PlayerController : MonoBehaviour
 
 	private void OnCollisionStay2D(Collision2D collision)
 	{
-		if (collision.gameObject.tag == "Obstacle")
+		if (collision.gameObject.CompareTag("Obstacle"))
 			Debug.Log("STAY");
 	}
 	private void OisionExit2D(Collision2D collision)
 	{
-		if (collision.gameObject.tag == "Obstacle")
+		if (collision.gameObject.CompareTag("Obstacle"))
 			Debug.Log("EXIT");
 	}
 
@@ -186,7 +187,7 @@ public class PlayerController : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.gameObject.tag == "Tram")
+		if (collision.gameObject.CompareTag("Tram"))
 		{
 			rb.AddForce(Vector3.up * jumpForce * 1.4f, ForceMode2D.Impulse);
 			isGrounded = false;
@@ -195,7 +196,7 @@ public class PlayerController : MonoBehaviour
 			anim.SetBool("isFalling", false);
 		}
 
-		if (collision.gameObject.tag == "End")
+		if (collision.gameObject.CompareTag("End"))
 		{
 			GameEnd.SetActive(true);
 		}
