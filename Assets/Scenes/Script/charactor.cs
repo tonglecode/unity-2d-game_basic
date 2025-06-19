@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
 	public GameObject GameEnd;
 
+	public Animator TramAnimation;
+
 	public void Retry_Button()
 	{
 		SceneManager.LoadScene("SampleScene");
@@ -188,6 +190,7 @@ public class PlayerController : MonoBehaviour
 		{
 			rb.AddForce(Vector3.up * jumpForce * 1.4f, ForceMode2D.Impulse);
 			isGrounded = false;
+			TramAnimation.SetTrigger("isJump");
 			anim.SetBool("isJumping", true);
 			anim.SetBool("isFalling", false);
 		}

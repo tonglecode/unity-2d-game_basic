@@ -1625,12 +1625,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.87, y: 0.73, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.042, y: -0.07, z: -10}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1244831826}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &551789666
 GameObject:
@@ -2384,7 +2384,7 @@ GameObject:
   - component: {fileID: 1103608369}
   - component: {fileID: 1103608372}
   m_Layer: 0
-  m_Name: Jump (28x28)_0
+  m_Name: Trampoline
   m_TagString: Tram
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2400,7 +2400,7 @@ Animator:
   m_GameObject: {fileID: 1103608368}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a5ee21a71b5d2422b962e0527307a6be, type: 2}
+  m_Controller: {fileID: 9100000, guid: e647e2b29aa05408a9e0d92aeff04f67, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2616,7 +2616,8 @@ Transform:
   m_LocalPosition: {x: -4.34, y: 2.28, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 519420032}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1244831827
@@ -2663,6 +2664,7 @@ MonoBehaviour:
   Hit_prefab: {fileID: 4984226366462312594, guid: f6cba66f8d888473d9b8dc875ce8c040, type: 3}
   GameOver: {fileID: 418974539}
   GameEnd: {fileID: 368988336}
+  TramAnimation: {fileID: 1103608369}
   speed: 5
   jumpForce: 8
 --- !u!70 &1244831830
@@ -2699,8 +2701,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0046756505, y: -0.01870284}
-  m_Size: {x: 0.22461562, y: 0.2601509}
+  m_Offset: {x: -0.0016224384, y: -0.029724622}
+  m_Size: {x: 0.18052836, y: 0.21921277}
   m_Direction: 0
 --- !u!95 &1244831831
 Animator:
@@ -3491,7 +3493,6 @@ BoxCollider2D:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1865448413}
   - {fileID: 927165641}
